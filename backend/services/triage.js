@@ -122,4 +122,4 @@ function triageTicket({ title, body}) {
 }
 // TODO: Store raw predictions for future ML training dataset
 
-module.exports = { triageTicket };
+export { triageTicket };
