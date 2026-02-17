@@ -1,3 +1,23 @@
+/**
+ * =========================================
+ * Rules-Based Triage Engine (rules-v1)
+ * =========================================
+ *
+ * This module performs basic issue classification using
+ * keyword scoring heuristics.
+ *
+ * Responsibilities:
+ *  - Clean and normalize ticket text
+ *  - Score predefined label buckets
+ *  - Predict label + confidence
+ *  - Infer priority level
+ *  - Map ticket to internal queue
+ *
+ * NOTE:
+ * This is version 1 (rules-based).
+ * Future versions may integrate a trained ML model.
+ */
+
 function cleanText(input) {
     if (!input) return '';
     return String(input)
@@ -100,5 +120,6 @@ function triageTicket({ title, body}) {
         explanations: pred.reasons.map(r => ({type: 'keyword', value: r})),
     };
 }
+// TODO: Store raw predictions for future ML training dataset
 
 module.exports = { triageTicket };
