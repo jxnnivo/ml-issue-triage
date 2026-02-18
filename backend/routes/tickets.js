@@ -1,15 +1,15 @@
 import { Router } from "express";
 import { triageTicket } from "../services/triage.js";
-import { addTicket } from "../services/storage.js";
+import { addTicket, readTickets } from "../services/storage.js";
 
 const router = Router();
 
 // Create new ticket
-router.post("/ticket", (req, res) => {
+router.post("/tickets", (req, res) => {
     const { title, description } = req.body;
 
     // Validate required fields
-    if (!title || ! description) { 
+    if (!title || !description) { 
         return res.status(400).json({
             error: "Title and description are required",
         });
@@ -28,11 +28,33 @@ router.post("/ticket", (req, res) => {
         ...triage,
     };
 
-    // Persist ticket to JSON storage
+    // Save ticket to ticket.json
     addTicket(newTicket);
 
-    // Return created ticket
+    // Return created ticket to client 
     return res.status(201).json(newTicket);
 });
+
+// Returns all stored tickets from tickets.json
+router.get("/tickets", (req, res) => {
+    try {
+        let tickets = readTickets();
+
+        // Filters tickets by priority
+        if (req.query.priority) {
+            tickets = tickets.filter(
+                ticket => ticket.routing?.priority === req.query.priority
+            );
+        }
+
+        // Sorts ticket by newest first
+        tickets.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        return res.json(tickets);
+    } catch (err) {
+        console.error("GET /tickets error:", err);
+        return res.status(500).json({ error: "Failed to fetch tickets"});
+    }
+})
 
 export default router;
