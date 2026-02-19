@@ -74,4 +74,23 @@ router.get("/:id", (req, res) => {
     }
 });
 
+// Delete a ticket by ID
+router.delete("/:id", (req, res) => {
+    try {
+        const tickets = readTickets();
+        const updateTickets = tickets.filter((t) => t.id !== req.params.id);
+
+        if (updateTickets.length === tickets.length) {
+            return res.status(404).json({ error: "Ticket not found"});
+        }
+
+        writeTickets(updateTickets);
+
+        return res.json({ message: "Ticket deleted", id: req.params.id });
+    } catch (err) {
+        console.error("DELETE /tickets/:id error", err);
+        return res.status(500).json({ error: "Failed to delete ticket" });
+    }
+});
+
 export default router;
