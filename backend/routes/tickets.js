@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { triageTicket } from "../services/triage.js";
-import { addTicket, readTickets } from "../services/storage.js";
+import { addTicket, readTickets, writeTickets } from "../services/storage.js";
 
 const router = Router();
 
 // Create new ticket
-router.post("/tickets", (req, res) => {
+router.post("/", (req, res) => {
     const { title, description } = req.body;
 
     // Validate required fields
@@ -36,7 +36,7 @@ router.post("/tickets", (req, res) => {
 });
 
 // Returns all stored tickets from tickets.json
-router.get("/tickets", (req, res) => {
+router.get("/", (req, res) => {
     try {
         let tickets = readTickets();
 
@@ -56,5 +56,22 @@ router.get("/tickets", (req, res) => {
         return res.status(500).json({ error: "Failed to fetch tickets"});
     }
 })
+
+// Get a single ticket by ID
+router.get("/:id", (req, res) => {
+    try {
+        const tickets = readTickets();
+        const ticket = tickets.find((t) => t.id === req.params.id);
+
+        if (!ticket) {
+            return res.status(404).json({ error: "Ticket not found" });
+        }
+
+        return res.json(ticket);
+    } catch (err) {
+        console.error("GET /tickets/:id error:", err);
+        return res.status(500).json({ error: "Failed to fetch ticket" });
+    }
+});
 
 export default router;

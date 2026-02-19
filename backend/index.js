@@ -1,9 +1,9 @@
-import ticketRouters from "./routes/tickets.js";
+import ticketsRouter from "./routes/tickets.js";
 import express from "express";
 
 const app = express();
 app.use(express.json());
-app.use(ticketRouters);
+app.use("/tickets", ticketsRouter);
 const port = 3001;
 
 app.get("/", (req, res) => {
