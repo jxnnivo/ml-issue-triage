@@ -1,7 +1,7 @@
 # ml-issue triage (Phase 1)
 Backend API for automatically classifying, prioritizing, and routing support tickets.
 
-This project is being built in phases. The current version implements a modular rule-based triage engine designed to later by extended into a machine learning-powered system.
+This project is being built in phases. The current version implements a modular rule-based triage engine designed to later be extended into a machine learning-powered system.
 
 ## Current Features
     - Text normalization and preprocessing
@@ -9,11 +9,11 @@ This project is being built in phases. The current version implements a modular 
     - Priority inference using urgency indicators
     - Queue routing logic
     - Confidence scoring heuristic
-    - Explainable keyword0based reasoning
-    - REST API endpoints fot ticket processing
+    - Explainable keyword-based reasoning
+    - REST API endpoints for ticket processing
 
-### Triage Engine (rules-v1)
-How it works:
+## Triage Engine (rules-v1)
+### How it works:
     1. Cleans and standardizes ticket text
     2. Scores predefined keyword buckets
     3. Selects the highest scoring category
@@ -23,20 +23,20 @@ How it works:
 
 The engine is intentionally modular so it can be replaced with a trained ML classifier in the future phase.
 
-#### Architecture (Current)
+### Architecture (Current)
     - Backend: Node.js + Express
     - Classification Layer: Rule-based scoring module
     - API Endpoints: /tickets, /status
 
-##### Planned Enchancements
+### Planned Enhancements
     - Persist labeled tickets for training dataset generation
     - Replace rule engine with supervised ML model
     - Add evaluation metrics (precision, recall, F1)
     - Implement frontend UI for ticket submission and visualization
     - Deploy to cloud environment
 
-###### Project Purpose
-This porject demonstrates:
+### Project Purpose
+This project demonstrates:
     - Backend API design
     - Modular system architecture
     - Text preprocessing and classification logic
